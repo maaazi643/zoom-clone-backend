@@ -11,10 +11,10 @@ if (!apiKey || !secret) {
 const client = new StreamClient(apiKey, secret);
 
 export async function POST(req: NextRequest) {
-  const { userID, name, image, email } = await req.json();
+  const { userId, name, image, email } = await req.json();
 
   const newUser: UserRequest = {
-    id: userID,
+    id: userId,
     role: "user",
     name,
     image,
@@ -28,12 +28,12 @@ export async function POST(req: NextRequest) {
   const validity = 60 * 60;
 
   const token = client.generateUserToken({
-    user_id: userID,
+    user_id: userId,
     validity_in_seconds: validity,
   });
 
   console.log(
-    `User ${userID} created with token ${token} and validity ${validity}`
+    `User ${userId} created with token ${token} and validity ${validity}`
   );
 
   return NextResponse.json({
